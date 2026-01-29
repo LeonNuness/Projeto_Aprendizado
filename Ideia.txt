@@ -1,0 +1,15 @@
+A ideia principal seria:
+
+-> Artigos científicos (Bando de dados)
+
+-> Pré-processamento de texto 
+
+-> Embeddings semânticos 
+
+-> Agregação por professor 
+
+-> Espaço vetorial de professores
+
+-> Similaridade / Clustering
+
+-> Ranking de professores para um projeto
