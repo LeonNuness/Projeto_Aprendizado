@@ -17,15 +17,15 @@ print(files)
 
 df = pd.read_csv(os.path.join(path, files[0]))
 df.head()
-
-df = df[["title", "summary", "authors"]].dropna()
+print(df.columns.tolist())
+df = df[["title", "summary", "first_author"]].dropna()
 
 df["texto"] = df["title"] + ". " + df["summary"]
 
 artigos = []
 
 for _, row in df.iterrows():
-    autores = row["authors"].split(",")
+    autores = row["first_author"].split(",")
     for autor in autores:
         artigos.append({
             "professor": autor.strip(),
@@ -63,9 +63,11 @@ vetores_professores = {
 }
 
 descricao_projeto = """
-Sistema de recomendação acadêmica baseado em
-aprendizado não supervisionado e embeddings semânticos
-para análise de produção científica
+Este projeto propõe o desenvolvimento de um sistema de recomendação
+para jogos de interpretação de papéis (RPG), utilizando aprendizado
+de máquina não supervisionado, modelagem de agentes e representações
+semânticas para análise de narrativas, tomada de decisão e sistemas
+interativos baseados em texto.
 """
 
 v_proj = model.encode(preprocess(descricao_projeto))
