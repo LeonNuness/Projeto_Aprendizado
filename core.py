@@ -38,6 +38,7 @@ def preprocess(texto):
     texto = re.sub(r"[^a-zA-ZÀ-ÿ\s]", "", texto)
     return texto.strip()
 
+#Tirar dúvida
 model = SentenceTransformer(
     "sentence-transformers/all-MiniLM-L6-v2"
 )
