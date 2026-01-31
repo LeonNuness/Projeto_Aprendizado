@@ -62,12 +62,15 @@ vetores_professores = {
     for prof, vectors in prof_to_vectors.items()
 }
 
-descricao_projeto = """
-Este projeto propõe o desenvolvimento de um sistema de recomendação
-para jogos de interpretação de papéis (RPG), utilizando aprendizado
-de máquina não supervisionado, modelagem de agentes e representações
-semânticas para análise de narrativas, tomada de decisão e sistemas
-interativos baseados em texto.
+"""
+Descrição do Projeto 
+
+O código constrói um sistema de recomendação acadêmica baseado em similaridade semântica, 
+representando artigos científicos e a descrição de um projeto como vetores no mesmo espaço vetorial, 
+e utilizando similaridade do cosseno para identificar os autores mais alinhados tematicamente com o projeto proposto
+
+O objetivo do projeto é o desenvolvimento de recomendação de professores para determinados tipos de pesquisa.
+Então se você quiser fazer um artigo qualquer, você coloca a ideia lá e ele te indica qual professor você tem que ir atrás.
 """
 
 v_proj = model.encode(preprocess(descricao_projeto))
