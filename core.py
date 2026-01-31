@@ -88,3 +88,60 @@ ranking = sorted(scores, key=lambda x: x[1], reverse=True)
 
 for prof, score in ranking[:10]:
     print(f"{prof}: {score:.4f}")
+    
+
+#---------------K-MEANS-----------------------------------------------------------
+
+from sklearn.cluster import KMeans
+
+# lista de professores
+nomes_professores = list(vetores_professores.keys())
+
+# matriz (n_professores, dimensão_embedding)
+X_prof = np.vstack(list(vetores_professores.values()))
+
+print(X_prof.shape)
+
+k = 10
+
+kmeans = KMeans(
+    n_clusters=k,
+    random_state=42,
+    n_init=10
+)
+
+labels = kmeans.fit_predict(X_prof)
+
+
+prof_cluster = {
+    prof: cluster
+    for prof, cluster in zip(nomes_professores, labels)
+}
+
+v_proj = model.encode(preprocess(descricao_projeto))
+
+cluster_proj = kmeans.predict([v_proj])[0]
+
+print("Cluster do projeto:", cluster_proj)
+
+scores_cluster = []
+
+for prof, v_prof in vetores_professores.items():
+    if prof_cluster[prof] == cluster_proj:
+        sim = cosine_similarity(
+            [v_proj],
+            [v_prof]
+        )[0][0]
+        scores_cluster.append((prof, sim))
+
+
+ranking_cluster = sorted(
+    scores_cluster,
+    key=lambda x: x[1],
+    reverse=True
+)
+
+print("Top professores recomendados:")
+for prof, score in ranking_cluster[:10]:
+    print(f"{prof}: {score:.4f}")
+
