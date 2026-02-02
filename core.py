@@ -62,10 +62,7 @@ vetores_professores = {
     for prof, vectors in prof_to_vectors.items()
 }
 
-"""
-Descrição do Projeto 
-
-O código constrói um sistema de recomendação acadêmica baseado em similaridade semântica, 
+descricao_projeto = """O código constrói um sistema de recomendação acadêmica baseado em similaridade semântica, 
 representando artigos científicos e a descrição de um projeto como vetores no mesmo espaço vetorial, 
 e utilizando similaridade do cosseno para identificar os autores mais alinhados tematicamente com o projeto proposto
 
