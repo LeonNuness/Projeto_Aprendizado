@@ -62,12 +62,12 @@ vetores_professores = {
     for prof, vectors in prof_to_vectors.items()
 }
 
-descricao_projeto = """
-Este projeto propõe o desenvolvimento de um sistema de recomendação
-para jogos de interpretação de papéis (RPG), utilizando aprendizado
-de máquina não supervisionado, modelagem de agentes e representações
-semânticas para análise de narrativas, tomada de decisão e sistemas
-interativos baseados em texto.
+descricao_projeto = """O código constrói um sistema de recomendação acadêmica baseado em similaridade semântica, 
+representando artigos científicos e a descrição de um projeto como vetores no mesmo espaço vetorial, 
+e utilizando similaridade do cosseno para identificar os autores mais alinhados tematicamente com o projeto proposto
+
+O objetivo do projeto é o desenvolvimento de recomendação de professores para determinados tipos de pesquisa.
+Então se você quiser fazer um artigo qualquer, você coloca a ideia lá e ele te indica qual professor você tem que ir atrás.
 """
 
 v_proj = model.encode(preprocess(descricao_projeto))
@@ -85,3 +85,60 @@ ranking = sorted(scores, key=lambda x: x[1], reverse=True)
 
 for prof, score in ranking[:10]:
     print(f"{prof}: {score:.4f}")
+    
+
+#---------------K-MEANS-----------------------------------------------------------
+
+from sklearn.cluster import KMeans
+
+# lista de professores
+nomes_professores = list(vetores_professores.keys())
+
+# matriz (n_professores, dimensão_embedding)
+X_prof = np.vstack(list(vetores_professores.values()))
+
+print(X_prof.shape)
+
+k = 10
+
+kmeans = KMeans(
+    n_clusters=k,
+    random_state=42,
+    n_init=10
+)
+
+labels = kmeans.fit_predict(X_prof)
+
+
+prof_cluster = {
+    prof: cluster
+    for prof, cluster in zip(nomes_professores, labels)
+}
+
+v_proj = model.encode(preprocess(descricao_projeto))
+
+cluster_proj = kmeans.predict([v_proj])[0]
+
+print("Cluster do projeto:", cluster_proj)
+
+scores_cluster = []
+
+for prof, v_prof in vetores_professores.items():
+    if prof_cluster[prof] == cluster_proj:
+        sim = cosine_similarity(
+            [v_proj],
+            [v_prof]
+        )[0][0]
+        scores_cluster.append((prof, sim))
+
+
+ranking_cluster = sorted(
+    scores_cluster,
+    key=lambda x: x[1],
+    reverse=True
+)
+
+print("Top professores recomendados:")
+for prof, score in ranking_cluster[:10]:
+    print(f"{prof}: {score:.4f}")
+
